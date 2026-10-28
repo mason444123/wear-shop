@@ -103,7 +103,7 @@ nav a:hover:after{width:100%}
 .flake-deco svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1;stroke-linecap:round}
 @keyframes flakeSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 /* scroll indicator: cute centered snowflake, gentle bob */
-.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:up 1s ease 1.6s forwards}
+.scroll-hint{position:absolute;bottom:22px;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:up 1s ease 1.6s forwards}
 .scroll-hint svg{width:26px;height:26px;stroke:#8fb6e2;fill:none;stroke-width:1.6;stroke-linecap:round;animation:bob 2.2s ease-in-out infinite}
 .scroll-hint span{font-size:.62rem;letter-spacing:.3em;color:var(--dim);font-weight:700}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(8px) rotate(18deg)}}
