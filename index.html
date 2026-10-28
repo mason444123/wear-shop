@@ -91,21 +91,32 @@ nav a:hover:after{width:100%}
 .cart-buy{display:block;width:100%;padding:15px;background:var(--accent);border:0;border-radius:14px;color:#fff;font-weight:900;font-size:.95rem;cursor:pointer;transition:transform .2s,box-shadow .25s}
 .cart-buy:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(244,139,176,.45)}
 .cart-buy[disabled]{background:#c9ced9;cursor:not-allowed;transform:none;box-shadow:none}
-/* fly-to-cart animation */
-.fly{position:fixed;z-index:120;width:44px;height:44px;border-radius:50%;background:var(--accent);pointer-events:none;transition:all .7s cubic-bezier(.3,-0.2,.6,1)}
+/* floating mini cart (bottom-right pill, appears only with items) */
+.mini-cart{position:fixed;bottom:22px;right:22px;z-index:80;display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:12px 20px 12px 16px;box-shadow:0 12px 32px rgba(28,35,51,.15);cursor:pointer;font-weight:800;font-size:.9rem;color:var(--txt);transform:translateY(120px);opacity:0;transition:transform .4s cubic-bezier(.3,1.3,.4,1),opacity .3s,border-color .25s}
+.mini-cart.show{transform:none;opacity:1}
+.mini-cart:hover{border-color:var(--accent)}
+.mini-cart svg{width:22px;height:22px;stroke:var(--txt);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mini-cart .mc-count{min-width:24px;height:24px;padding:0 7px;background:var(--accent);color:#fff;border-radius:999px;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
+.mini-cart .mc-total{color:var(--accent);font-weight:900}
+/* fly-to-cart: snowflake */
+.fly{position:fixed;z-index:120;width:36px;height:36px;pointer-events:none;color:#8fb6e2;transition:all .75s cubic-bezier(.3,-0.15,.6,1)}
+.fly svg{width:100%;height:100%;animation:flySpin .75s linear}
+.fly path{stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
+@keyframes flySpin{from{transform:rotate(0)}to{transform:rotate(180deg)}}
 
 /* snow: from very top, more contrast */
 .snow{position:absolute;top:-6vh;color:#8fb6e2;z-index:1;pointer-events:none;animation:fall linear infinite}
 @keyframes fall{from{transform:translateY(0) rotate(0)}to{transform:translateY(112vh) rotate(300deg)}}
-/* decorative big snowflake (replaces ring) */
-.flake-deco{position:absolute;right:8%;top:14%;width:clamp(120px,18vw,220px);height:clamp(120px,18vw,220px);z-index:1;pointer-events:none;color:#a8c8ec;opacity:.55;animation:flakeSpin 26s linear infinite}
-.flake-deco.f2{right:auto;left:6%;top:auto;bottom:16%;width:clamp(70px,10vw,110px);height:clamp(70px,10vw,110px);color:#8fb6e2;opacity:.35;animation-duration:40s;animation-direction:reverse}
-.flake-deco svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1;stroke-linecap:round}
+/* decorative big snowflake (6 real arms with branches) */
+.flake-deco{position:absolute;right:8%;top:12%;width:clamp(140px,20vw,240px);height:clamp(140px,20vw,240px);z-index:1;pointer-events:none;color:#a8c8ec;opacity:.7;animation:flakeSpin 30s linear infinite}
+.flake-deco.f2{right:auto;left:6%;top:auto;bottom:14%;width:clamp(90px,12vw,130px);height:clamp(90px,12vw,130px);color:#8fb6e2;opacity:.45;animation-duration:44s;animation-direction:reverse}
+.flake-deco svg{width:100%;height:100%}
+.flake-deco path{stroke:currentColor;fill:none;stroke-width:4;stroke-linecap:round}
 @keyframes flakeSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-/* scroll indicator: cute centered snowflake, gentle bob */
-.scroll-hint{position:absolute;bottom:22px;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:up 1s ease 1.6s forwards}
-.scroll-hint svg{width:26px;height:26px;stroke:#8fb6e2;fill:none;stroke-width:1.6;stroke-linecap:round;animation:bob 2.2s ease-in-out infinite}
-.scroll-hint span{font-size:.62rem;letter-spacing:.3em;color:var(--dim);font-weight:700}
+/* scroll indicator: small bobbing snowflake, no text */
+.scroll-hint{position:absolute;bottom:20px;left:0;right:0;z-index:2;display:flex;justify-content:center;opacity:0;animation:up 1s ease 1.6s forwards}
+.scroll-hint svg{width:22px;height:22px;animation:bob 2.2s ease-in-out infinite}
+.scroll-hint path{stroke:#8fb6e2;fill:none;stroke-width:1.6;stroke-linecap:round}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(8px) rotate(18deg)}}
 @keyframes up{to{opacity:1;transform:none}}
 
@@ -182,7 +193,7 @@ footer .logo{margin-bottom:12px}
 <nav>
   <div class="logo"><span class="snow">✻</span>Polina <span>Prive</span></div>
   <div class="links"><a href="#shop">Каталог</a><a href="#sizes">Размеры</a><a href="#why">Почему мы</a><a href="#contact">Контакты</a></div>
-  <button class="cart-btn" id="cartOpen" aria-label="Корзина">
+  <button class="cart-btn" id="cartOpen" aria-label="Корзина" hidden>
     <svg viewBox="0 0 24 24"><path d="M6 7h12l1.5 12.5a1 1 0 0 1-1 1.5h-13a1 1 0 0 1-1-1.5L6 7z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
     <span class="cart-count" id="cartCount">0</span>
   </button>
@@ -191,21 +202,34 @@ footer .logo{margin-bottom:12px}
 <header class="hero" id="snowField">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
+  <!-- big snowflake: 6 arms × (main ray + 2 side branches + tip V) -->
   <div class="flake-deco" aria-hidden="true">
-    <svg viewBox="0 0 100 100">
-      <g transform="translate(50 50)">
-        <path d="M0 -42 L0 42 M-36.4 -21 L36.4 21 M-36.4 21 L36.4 -21"/>
-        <path d="M0 -42 l-8 8 M0 -42 l8 8 M0 42 l-8 -8 M0 42 l8 -8"/>
-        <path d="M-36.4 -21 l-2 11.4 M-36.4 -21 l11 -2.4 M36.4 21 l-2 -11.4 M36.4 21 l11 -2.4"/>
-        <path d="M-36.4 21 l2 -11.4 M-36.4 21 l11 2.4 M36.4 -21 l2 11.4 M36.4 -21 l11 2.4"/>
+    <svg viewBox="-50 -50 100 100">
+      <g id="flakeArm6">
+        <g>
+          <path d="M0 0 L0 -44"/>
+          <path d="M0 -18 L-10 -28 M0 -18 L10 -28"/>
+          <path d="M0 -30 L-7 -37 M0 -30 L7 -37"/>
+          <path d="M0 -44 L-6 -38 M0 -44 L6 -38"/>
+          <g transform="rotate(60)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -30 L-7 -37 M0 -30 L7 -37"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+          <g transform="rotate(120)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -30 L-7 -37 M0 -30 L7 -37"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+          <g transform="rotate(180)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -30 L-7 -37 M0 -30 L7 -37"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+          <g transform="rotate(240)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -30 L-7 -37 M0 -30 L7 -37"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+          <g transform="rotate(300)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -30 L-7 -37 M0 -30 L7 -37"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+        </g>
+        <circle cx="0" cy="0" r="3"/>
       </g>
     </svg>
   </div>
   <div class="flake-deco f2" aria-hidden="true">
-    <svg viewBox="0 0 100 100">
-      <g transform="translate(50 50)">
-        <path d="M0 -42 L0 42 M-36.4 -21 L36.4 21 M-36.4 21 L36.4 -21"/>
-        <path d="M0 -42 l-8 8 M0 -42 l8 8 M0 42 l-8 -8 M0 42 l8 -8"/>
+    <svg viewBox="-50 -50 100 100">
+      <g>
+        <g><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+        <g transform="rotate(60)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+        <g transform="rotate(120)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+        <g transform="rotate(180)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+        <g transform="rotate(240)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
+        <g transform="rotate(300)"><path d="M0 0 L0 -44"/><path d="M0 -18 L-10 -28 M0 -18 L10 -28"/><path d="M0 -44 L-6 -38 M0 -44 L6 -38"/></g>
       </g>
     </svg>
   </div>
@@ -214,8 +238,16 @@ footer .logo{margin-bottom:12px}
   <p>Зимние куртки, комбинезоны и комплекты для детей. Мембрана держит снег и ветер, внутри — мягкий утеплитель. Ребёнок бегает, а не мёрзнет.</p>
   <a href="#shop" class="btn">Выбрать куртку</a>
   <div class="scroll-hint" aria-hidden="true">
-    <svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6L4 18"/><path d="M12 5l-2.5 2.5M12 5l2.5 2.5M12 19l-2.5-2.5M12 19l2.5-2.5"/></svg>
-    <span>ЛИСТАЙ</span>
+    <svg viewBox="-25 -25 50 50">
+      <g>
+        <g><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g>
+        <g transform="rotate(60)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g>
+        <g transform="rotate(120)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g>
+        <g transform="rotate(180)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g>
+        <g transform="rotate(240)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g>
+        <g transform="rotate(300)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g>
+      </g>
+    </svg>
   </div>
 </header>
 
@@ -282,7 +314,6 @@ footer .logo{margin-bottom:12px}
 
 <footer id="contact">
   <div class="logo">Polina <span>Prive</span></div>
-  <div>Вопросы по размерам: <a href="https://t.me/custom_843" style="color:var(--accent);text-decoration:none">@custom_843</a></div>
   <div style="margin-top:10px">© 2026 Polina Prive. Зимние куртки для детей.</div>
 </footer>
 
@@ -300,6 +331,11 @@ footer .logo{margin-bottom:12px}
     <div class="cart-note">Доставка 2–5 дней · обмен 30 дней</div>
   </div>
 </aside>
+<button class="mini-cart" id="miniCart" aria-label="Открыть корзину">
+  <svg viewBox="0 0 24 24"><path d="M6 7h12l1.5 12.5a1 1 0 0 1-1 1.5h-13a1 1 0 0 1-1-1.5L6 7z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+  <span class="mc-count" id="mcCount">0</span>
+  <span class="mc-total" id="mcTotal">0 ₽</span>
+</button>
 
 <script>
 // hero: split text into animated letters
@@ -374,28 +410,36 @@ const itemsEl = document.getElementById('cartItems');
 const totalEl = document.getElementById('cartTotal');
 const countEl = document.getElementById('cartCount');
 const buyBtn = document.getElementById('cartBuy');
+const mini = document.getElementById('miniCart');
+const mcCount = document.getElementById('mcCount');
+const mcTotal = document.getElementById('mcTotal');
 
 function saveCart(){ try { localStorage.setItem('pp_cart', JSON.stringify(cart)); } catch(e){} }
 
 function openCart(){ drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
 function closeCart(){ drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow=''; }
 
-document.getElementById('cartOpen').onclick = openCart;
+mini.onclick = openCart;
 document.getElementById('cartClose').onclick = closeCart;
 overlay.onclick = closeCart;
 addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
 
 function renderCart(){
   const ids = Object.keys(cart);
-  countEl.textContent = ids.reduce((s,id) => s + cart[id], 0);
+  const qty = ids.reduce((s,id) => s + cart[id], 0);
+  countEl.textContent = qty;
   countEl.classList.toggle('show', ids.length > 0);
+  mcCount.textContent = qty;
   buyBtn.disabled = ids.length === 0;
   itemsEl.innerHTML = '';
   if (!ids.length) {
+    mini.classList.remove('show');
     itemsEl.innerHTML = '<div class="cart-empty">Пока пусто.<br>Добавьте куртку из каталога.</div>';
     totalEl.textContent = '0 ₽';
+    mcTotal.textContent = '0 ₽';
     return;
   }
+  mini.classList.add('show');
   let total = 0;
   ids.forEach(id => {
     const p = PRODUCTS.find(x => x.id === id); if (!p) return;
@@ -419,6 +463,7 @@ function renderCart(){
     itemsEl.appendChild(row);
   });
   totalEl.textContent = fmt(total);
+  mcTotal.textContent = fmt(total);
 }
 
 itemsEl.addEventListener('click', e => {
@@ -444,22 +489,24 @@ buyBtn.onclick = () => {
   window.open('https://t.me/custom_843?text=' + text, '_blank');
 };
 
-// add-to-cart: fly animation from the clicked card to the nav cart button
+// add-to-cart: snowflake flies from the clicked card to the mini-cart
+const FLY_SVG = '<svg viewBox="-25 -25 50 50"><g><g><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g><g transform="rotate(60)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g><g transform="rotate(120)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g><g transform="rotate(180)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g><g transform="rotate(240)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g><g transform="rotate(300)"><path d="M0 0 L0 -22"/><path d="M0 -9 L-5 -14 M0 -9 L5 -14"/><path d="M0 -22 L-3 -19 M0 -22 L3 -19"/></g></g></svg>';
 function flyToCart(fromEl){
-  const btn = document.getElementById('cartOpen').getBoundingClientRect();
+  const btn = mini.getBoundingClientRect();
   const from = fromEl.getBoundingClientRect();
   const dot = document.createElement('div');
   dot.className = 'fly';
-  dot.style.left = (from.left + from.width/2 - 22) + 'px';
-  dot.style.top = (from.top + from.height/2 - 22) + 'px';
+  dot.innerHTML = FLY_SVG;
+  dot.style.left = (from.left + from.width/2 - 18) + 'px';
+  dot.style.top = (from.top + from.height/2 - 18) + 'px';
   document.body.appendChild(dot);
   requestAnimationFrame(() => {
-    dot.style.left = (btn.left + btn.width/2 - 22) + 'px';
-    dot.style.top = (btn.top + btn.height/2 - 22) + 'px';
-    dot.style.transform = 'scale(.3)';
+    dot.style.left = (btn.left + btn.width/2 - 18) + 'px';
+    dot.style.top = (btn.top + btn.height/2 - 18) + 'px';
+    dot.style.transform = 'scale(.35)';
     dot.style.opacity = '0';
   });
-  setTimeout(() => dot.remove(), 750);
+  setTimeout(() => dot.remove(), 800);
 }
 
 document.querySelectorAll('.add').forEach(b => {
