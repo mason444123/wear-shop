@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEAR — одежда, которая говорит за тебя</title>
+<meta name="description" content="Минималистичная одежда. Худи, футболки, штаны. Простые вещи — сильный образ.">
+<style>
+:root{
+  --bg:#0c0c0e; --card:#141418; --txt:#f2f2f2; --dim:#8a8a92;
+  --accent:#ff5c38; --line:#24242a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',Arial,sans-serif;overflow-x:hidden}
+img{display:block;max-width:100%}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 5vw;background:rgba(12,12,14,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:900;font-size:1.4rem;letter-spacing:.25em}
+.logo span{color:var(--accent)}
+nav .links{display:flex;gap:28px;font-size:.9rem;letter-spacing:.08em}
+nav a{color:var(--dim);text-decoration:none;transition:color .25s}
+nav a:hover{color:var(--txt)}
+
+/* ===== HERO ===== */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:110px 5vw 60px;position:relative}
+.hero h1{font-size:clamp(2.4rem,7vw,5.5rem);line-height:1.04;font-weight:900;letter-spacing:-.02em}
+.hero h1 .grad{background:linear-gradient(90deg,var(--accent),#ffb199);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin-top:22px;max-width:44ch;color:var(--dim);font-size:clamp(1rem,2vw,1.2rem);line-height:1.6}
+.btn{display:inline-block;margin-top:34px;padding:16px 38px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;letter-spacing:.06em;border-radius:4px;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,92,56,.35)}
+/* glow blob */
+.blob{position:absolute;width:44vw;height:44vw;border-radius:50%;filter:blur(90px);opacity:.25;pointer-events:none}
+.blob-1{background:var(--accent);top:-10%;right:-8%;animation:drift 14s ease-in-out infinite alternate}
+.blob-2{background:#3a5cff;bottom:-15%;left:-10%;animation:drift 18s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-6%,8%) scale(1.15)}}
+
+/* fade-up on load for hero */
+.hero > *{opacity:0;transform:translateY(26px);animation:up .8s ease forwards}
+.hero h1{animation-delay:.1s}.hero p{animation-delay:.3s}.hero .btn{animation-delay:.5s}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* ===== MARQUEE ===== */
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;background:var(--card)}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:slide 22s linear infinite;font-weight:800;letter-spacing:.2em;color:var(--dim);white-space:nowrap}
+.marquee-track b{color:var(--accent)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ===== PRODUCTS ===== */
+section{padding:90px 5vw}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:40px}
+h2 small{display:block;font-size:.85rem;font-weight:400;color:var(--dim);letter-spacing:.15em;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .35s,border-color .35s}
+.card:hover{transform:translateY(-8px);border-color:var(--accent)}
+.ph{height:260px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#1c1c22,#26262e);position:relative;overflow:hidden}
+.ph span{transition:transform .45s}
+.card:hover .ph span{transform:scale(1.25) rotate(-8deg)}
+.card-body{padding:18px}
+.card-body h3{font-size:1.05rem}
+.card-body .price{color:var(--accent);font-weight:800;margin-top:6px}
+.card-body .cat{color:var(--dim);font-size:.8rem;margin-top:4px;letter-spacing:.06em}
+.add{margin-top:14px;width:100%;padding:11px;background:transparent;color:var(--txt);border:1px solid var(--accent);border-radius:6px;font-size:.85rem;cursor:pointer;letter-spacing:.06em;transition:background .25s,color .25s}
+.add:hover{background:var(--accent);color:#fff}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+
+/* ===== FEATURES ===== */
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.fbox{padding:28px;background:var(--card);border:1px solid var(--line);border-radius:14px;transition:transform .35s,border-color .35s}
+.fbox:hover{transform:translateY(-6px);border-color:var(--accent)}
+.fbox .ico{font-size:1.8rem;margin-bottom:12px}
+.fbox h3{font-size:1rem;margin-bottom:8px}
+.fbox p{color:var(--dim);font-size:.9rem;line-height:1.55}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--line);padding:50px 5vw;text-align:center;color:var(--dim);font-size:.85rem}
+footer .logo{margin-bottom:12px}
+
+@media (max-width:768px){
+  nav .links{display:none}
+  section{padding:64px 5vw}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">WE<span>A</span>R</div>
+  <div class="links"><a href="#shop">Каталог</a><a href="#why">Почему мы</a><a href="#contact">Контакты</a></div>
+</nav>
+
+<header class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <h1>Одежда, которая <span class="grad">говорит за тебя</span></h1>
+  <p>Базовые вещи без лишнего шума. Плотная ткань, чистый крой, честная цена. Носится годами.</p>
+  <a href="#shop" class="btn">Смотреть каталог</a>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <div>ХУДИ <b>•</b> ФУТБОЛКИ <b>•</b> ШТАНЫ <b>•</b> КУРТКИ <b>•</b> NEW DROP <b>•</b> ДОСТАВКА ПО ВСЕМУ МИРУ <b>•</b></div>
+    <div>ХУДИ <b>•</b> ФУТБОЛКИ <b>•</b> ШТАНЫ <b>•</b> КУРТКИ <b>•</b> NEW DROP <b>•</b> ДОСТАВКА ПО ВСЕМУ МИРУ <b>•</b></div>
+  </div>
+</div>
+
+<section id="shop">
+  <h2><small>КАТАЛОГ</small>Новые вещи</h2>
+  <div class="grid">
+    <div class="card reveal">
+      <div class="ph"><span>🧥</span></div>
+      <div class="card-body"><h3>Худи Oversize</h3><div class="price">2 490 ₽</div><div class="cat">Плотность 340 г/м²</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal d1">
+      <div class="ph"><span>👕</span></div>
+      <div class="card-body"><h3>Футболка Basic</h3><div class="price">990 ₽</div><div class="cat">Хлопок 100%</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal d2">
+      <div class="ph"><span>👖</span></div>
+      <div class="card-body"><h3>Карго-штаны</h3><div class="price">3 190 ₽</div><div class="cat">Рипстоп</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal d3">
+      <div class="ph"><span>🧣</span></div>
+      <div class="card-body"><h3>Куртка Windbreaker</h3><div class="price">4 590 ₽</div><div class="cat">Мембрана 10K</div><button class="add">В корзину</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <h2><small>ПОЧЕМУ МЫ</small>Просто и по делу</h2>
+  <div class="feat">
+    <div class="fbox reveal"><div class="ico">🚚</div><h3>Доставка 2–5 дней</h3><p>Отправка в день заказа. По всему миру.</p></div>
+    <div class="fbox reveal d1"><div class="ico">🔄</div><h3>Возврат 30 дней</h3><p>Не подошло — вернём деньги без вопросов.</p></div>
+    <div class="fbox reveal d2"><div class="ico">🧵</div><h3>Качество ткани</h3><p>Тестируем каждую партию на носку и стирку.</p></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="logo">WE<span>A</span>R</div>
+  <div>Telegram: <a href="https://t.me/custom_843" style="color:var(--accent);text-decoration:none">@custom_843</a></div>
+  <div style="margin-top:10px">© 2026 WEAR. Все права защищены.</div>
+</footer>
+
+<script>
+// reveal on scroll
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+}), { threshold: .15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+// cart fake feedback
+document.querySelectorAll('.add').forEach(b => b.onclick = () => {
+  b.textContent = '✓ Добавлено'; setTimeout(() => b.textContent = 'В корзину', 1400);
+});
+</script>
+</body>
+</html>
