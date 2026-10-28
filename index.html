@@ -53,8 +53,50 @@ nav a:hover:after{width:100%}
 .blob-1{background:#ffd9e6;top:-12%;right:-8%;animation:drift 14s ease-in-out infinite alternate}
 .blob-2{background:#cfe6ff;bottom:-18%;left:-10%;animation:drift 18s ease-in-out infinite alternate-reverse}
 @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-6%,8%) scale(1.15)}}
-.snow{position:absolute;color:#bcd6ef;z-index:1;pointer-events:none;animation:fall linear infinite}
-@keyframes fall{from{transform:translateY(-8vh) rotate(0)}to{transform:translateY(105vh) rotate(300deg)}}
+/* cart button in nav */
+.cart-btn{position:relative;display:flex;align-items:center;gap:8px;background:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;color:var(--txt);font-weight:800;font-size:.85rem;transition:border-color .25s,background .25s}
+.cart-btn:hover{border-color:var(--accent);background:#fff}
+.cart-btn svg{width:20px;height:20px;stroke:var(--txt);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cart-count{min-width:22px;height:22px;padding:0 6px;background:var(--accent);color:#fff;border-radius:999px;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center;font-weight:900;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.6,.4,1)}
+.cart-count.show{transform:scale(1)}
+
+/* ===== CART DRAWER ===== */
+.overlay{position:fixed;inset:0;background:rgba(28,35,51,.4);backdrop-filter:blur(3px);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:auto}
+.cart{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:#fff;z-index:100;box-shadow:-18px 0 50px rgba(28,35,51,.18);transform:translateX(105%);transition:transform .38s cubic-bezier(.3,.9,.3,1);display:flex;flex-direction:column}
+.cart.open{transform:none}
+.cart-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+.cart-head h3{font-size:1.15rem}
+.cart-close{background:var(--soft);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;color:var(--dim);transition:background .2s,color .2s}
+.cart-close:hover{background:var(--accent);color:#fff}
+.cart-items{flex:1;overflow-y:auto;padding:16px 22px;display:flex;flex-direction:column;gap:14px}
+.cart-empty{text-align:center;color:var(--dim);padding:60px 10px;font-size:.95rem}
+.ci{display:flex;gap:12px;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px;animation:ciIn .3s ease}
+@keyframes ciIn{from{opacity:0;transform:translateX(20px)}}
+.ci .thumb{width:54px;height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(28,35,51,.3);flex:0 0 auto}
+.ci-body{flex:1;min-width:0}
+.ci-body h4{font-size:.92rem}
+.ci-price{color:var(--accent);font-weight:800;font-size:.9rem;margin-top:2px}
+.ci-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-weight:900;color:var(--txt);line-height:1;transition:all .2s}
+.qty button:hover{border-color:var(--accent);color:var(--accent)}
+.qty span{font-weight:800;min-width:18px;text-align:center}
+.ci-del{background:none;border:0;color:var(--dim);cursor:pointer;font-size:.78rem;text-decoration:underline;transition:color .2s}
+.ci-del:hover{color:var(--accent)}
+.cart-foot{border-top:1px solid var(--line);padding:18px 22px;background:var(--soft)}
+.cart-total-row{display:flex;justify-content:space-between;font-weight:900;font-size:1.1rem;margin-bottom:14px}
+.cart-total-row span:last-child{color:var(--accent)}
+.cart-note{font-size:.75rem;color:var(--dim);margin-top:10px;text-align:center}
+.cart-buy{display:block;width:100%;padding:15px;background:var(--accent);border:0;border-radius:14px;color:#fff;font-weight:900;font-size:.95rem;cursor:pointer;transition:transform .2s,box-shadow .25s}
+.cart-buy:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(244,139,176,.45)}
+.cart-buy[disabled]{background:#c9ced9;cursor:not-allowed;transform:none;box-shadow:none}
+/* fly-to-cart animation */
+.fly{position:fixed;z-index:120;width:44px;height:44px;border-radius:50%;background:var(--accent);pointer-events:none;transition:all .7s cubic-bezier(.3,-0.2,.6,1)}
+
+/* snow: from very top, more contrast */
+.snow{position:absolute;top:-6vh;color:#8fb6e2;z-index:1;pointer-events:none;animation:fall linear infinite}
+@keyframes fall{from{transform:translateY(0) rotate(0)}to{transform:translateY(112vh) rotate(300deg)}}
 .ring{position:absolute;border:2px solid rgba(90,176,255,.28);border-radius:50%;pointer-events:none;z-index:1}
 .ring-1{width:170px;height:170px;top:16%;right:12%;animation:floaty 7s ease-in-out infinite}
 .ring-2{width:90px;height:90px;bottom:22%;right:28%;border-color:rgba(244,139,176,.25);animation:floaty 9s ease-in-out infinite reverse}
@@ -137,6 +179,10 @@ footer .logo{margin-bottom:12px}
 <nav>
   <div class="logo"><span class="snow">✻</span>Polina <span>Prive</span></div>
   <div class="links"><a href="#shop">Каталог</a><a href="#sizes">Размеры</a><a href="#why">Почему мы</a><a href="#contact">Контакты</a></div>
+  <button class="cart-btn" id="cartOpen" aria-label="Корзина">
+    <svg viewBox="0 0 24 24"><path d="M6 7h12l1.5 12.5a1 1 0 0 1-1 1.5h-13a1 1 0 0 1-1-1.5L6 7z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
 </nav>
 
 <header class="hero" id="snowField">
@@ -213,10 +259,25 @@ footer .logo{margin-bottom:12px}
 </section>
 
 <footer id="contact">
-  <div class="logo">ТЕПЛЫ<span>Ш</span></div>
+  <div class="logo">Polina <span>Prive</span></div>
   <div>Вопросы по размерам: <a href="https://t.me/custom_843" style="color:var(--accent);text-decoration:none">@custom_843</a></div>
   <div style="margin-top:10px">© 2026 Polina Prive. Зимние куртки для детей.</div>
 </footer>
+
+<!-- ===== CART ===== -->
+<div class="overlay" id="cartOverlay"></div>
+<aside class="cart" id="cartDrawer" aria-label="Корзина">
+  <div class="cart-head">
+    <h3>Корзина</h3>
+    <button class="cart-close" id="cartClose" aria-label="Закрыть">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total-row"><span>Итого</span><span id="cartTotal">0 ₽</span></div>
+    <button class="cart-buy" id="cartBuy" disabled>Оформить заказ</button>
+    <div class="cart-note">Доставка 2–5 дней · обмен 30 дней</div>
+  </div>
+</aside>
 
 <script>
 // hero: split text into animated letters
@@ -273,10 +334,126 @@ addEventListener('scroll', () => {
   blobs.forEach((b, i) => b.style.marginTop = (y * (i ? .08 : -.05)) + 'px');
 }, { passive: true });
 
-// cart fake feedback
-document.querySelectorAll('.add').forEach(b => b.onclick = () => {
-  b.textContent = 'Добавлено'; setTimeout(() => b.textContent = 'В корзину', 1400);
+// ===== CART =====
+// product data + state
+const PRODUCTS = [
+  { id:'jk',  name:'Пуховик «Снежинка»',        price:3990, tag:'JK', bg:'#dff0ff' },
+  { id:'cm',  name:'Комбинезон «Полярка»',      price:4290, tag:'CM', bg:'#ffeadf' },
+  { id:'st',  name:'Комплект «Зимний день»',    price:2790, tag:'ST', bg:'#e3f7e8' },
+  { id:'tr',  name:'Куртка-трансформер «Рост»', price:4990, tag:'TR', bg:'#f3e8ff' },
+];
+const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
+let cart = {}; // id -> qty
+try { cart = JSON.parse(localStorage.getItem('pp_cart') || '{}'); } catch(e) {}
+
+const drawer = document.getElementById('cartDrawer');
+const overlay = document.getElementById('cartOverlay');
+const itemsEl = document.getElementById('cartItems');
+const totalEl = document.getElementById('cartTotal');
+const countEl = document.getElementById('cartCount');
+const buyBtn = document.getElementById('cartBuy');
+
+function saveCart(){ try { localStorage.setItem('pp_cart', JSON.stringify(cart)); } catch(e){} }
+
+function openCart(){ drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart(){ drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow=''; }
+
+document.getElementById('cartOpen').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+function renderCart(){
+  const ids = Object.keys(cart);
+  countEl.textContent = ids.reduce((s,id) => s + cart[id], 0);
+  countEl.classList.toggle('show', ids.length > 0);
+  buyBtn.disabled = ids.length === 0;
+  itemsEl.innerHTML = '';
+  if (!ids.length) {
+    itemsEl.innerHTML = '<div class="cart-empty">Пока пусто.<br>Добавьте куртку из каталога.</div>';
+    totalEl.textContent = '0 ₽';
+    return;
+  }
+  let total = 0;
+  ids.forEach(id => {
+    const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+    total += p.price * cart[id];
+    const row = document.createElement('div');
+    row.className = 'ci';
+    row.innerHTML = `
+      <div class="thumb" style="background:${p.bg}">${p.tag}</div>
+      <div class="ci-body">
+        <h4>${p.name}</h4>
+        <div class="ci-price">${fmt(p.price)}</div>
+        <div class="ci-row">
+          <div class="qty">
+            <button data-act="minus" data-id="${id}" aria-label="Меньше">−</button>
+            <span>${cart[id]}</span>
+            <button data-act="plus" data-id="${id}" aria-label="Больше">+</button>
+          </div>
+          <button class="ci-del" data-act="del" data-id="${id}">удалить</button>
+        </div>
+      </div>`;
+    itemsEl.appendChild(row);
+  });
+  totalEl.textContent = fmt(total);
+}
+
+itemsEl.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || !b.dataset.act) return;
+  const id = b.dataset.id;
+  if (b.dataset.act === 'plus') cart[id] = Math.min(cart[id] + 1, 99);
+  if (b.dataset.act === 'minus') { cart[id]--; if (cart[id] <= 0) delete cart[id]; }
+  if (b.dataset.act === 'del') delete cart[id];
+  saveCart(); renderCart();
 });
+
+buyBtn.onclick = () => {
+  const ids = Object.keys(cart);
+  if (!ids.length) return;
+  const lines = ids.map(id => {
+    const p = PRODUCTS.find(x => x.id === id);
+    return `${p.name} × ${cart[id]} — ${fmt(p.price * cart[id])}`;
+  });
+  const total = ids.reduce((s,id) => s + PRODUCTS.find(x=>x.id===id).price * cart[id], 0);
+  const text = encodeURIComponent(
+    'Здравствуйте! Хочу заказать:\n' + lines.join('\n') + `\nИтого: ${fmt(total)}`
+  );
+  window.open('https://t.me/custom_843?text=' + text, '_blank');
+};
+
+// add-to-cart: fly animation from the clicked card to the nav cart button
+function flyToCart(fromEl){
+  const btn = document.getElementById('cartOpen').getBoundingClientRect();
+  const from = fromEl.getBoundingClientRect();
+  const dot = document.createElement('div');
+  dot.className = 'fly';
+  dot.style.left = (from.left + from.width/2 - 22) + 'px';
+  dot.style.top = (from.top + from.height/2 - 22) + 'px';
+  document.body.appendChild(dot);
+  requestAnimationFrame(() => {
+    dot.style.left = (btn.left + btn.width/2 - 22) + 'px';
+    dot.style.top = (btn.top + btn.height/2 - 22) + 'px';
+    dot.style.transform = 'scale(.3)';
+    dot.style.opacity = '0';
+  });
+  setTimeout(() => dot.remove(), 750);
+}
+
+document.querySelectorAll('.add').forEach(b => {
+  b.dataset.id = b.closest('.card').querySelector('.ph').classList.contains('c1') ? 'jk'
+               : b.closest('.card').querySelector('.ph').classList.contains('c2') ? 'cm'
+               : b.closest('.card').querySelector('.ph').classList.contains('c3') ? 'st' : 'tr';
+  b.onclick = () => {
+    const id = b.dataset.id;
+    cart[id] = (cart[id] || 0) + 1;
+    saveCart(); renderCart();
+    flyToCart(b.closest('.card').querySelector('.ph'));
+    b.textContent = 'Добавлено'; setTimeout(() => b.textContent = 'В корзину', 1200);
+  };
+});
+
+renderCart();
 </script>
 </body>
 </html>
