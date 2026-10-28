@@ -97,13 +97,16 @@ nav a:hover:after{width:100%}
 /* snow: from very top, more contrast */
 .snow{position:absolute;top:-6vh;color:#8fb6e2;z-index:1;pointer-events:none;animation:fall linear infinite}
 @keyframes fall{from{transform:translateY(0) rotate(0)}to{transform:translateY(112vh) rotate(300deg)}}
-.ring{position:absolute;border:2px solid rgba(90,176,255,.28);border-radius:50%;pointer-events:none;z-index:1}
-.ring-1{width:170px;height:170px;top:16%;right:12%;animation:floaty 7s ease-in-out infinite}
-.ring-2{width:90px;height:90px;bottom:22%;right:28%;border-color:rgba(244,139,176,.25);animation:floaty 9s ease-in-out infinite reverse}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
-.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--dim);font-size:.7rem;letter-spacing:.3em;opacity:0;animation:up 1s ease 1.6s forwards}
-.scroll-hint:after{content:'';display:block;width:3px;height:38px;background:linear-gradient(var(--accent2),transparent);margin:10px auto 0;border-radius:2px;animation:drop 1.6s ease infinite}
-@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* decorative big snowflake (replaces ring) */
+.flake-deco{position:absolute;right:8%;top:14%;width:clamp(120px,18vw,220px);height:clamp(120px,18vw,220px);z-index:1;pointer-events:none;color:#a8c8ec;opacity:.55;animation:flakeSpin 26s linear infinite}
+.flake-deco.f2{right:auto;left:6%;top:auto;bottom:16%;width:clamp(70px,10vw,110px);height:clamp(70px,10vw,110px);color:#8fb6e2;opacity:.35;animation-duration:40s;animation-direction:reverse}
+.flake-deco svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1;stroke-linecap:round}
+@keyframes flakeSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+/* scroll indicator: cute centered snowflake, gentle bob */
+.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:up 1s ease 1.6s forwards}
+.scroll-hint svg{width:26px;height:26px;stroke:#8fb6e2;fill:none;stroke-width:1.6;stroke-linecap:round;animation:bob 2.2s ease-in-out infinite}
+.scroll-hint span{font-size:.62rem;letter-spacing:.3em;color:var(--dim);font-weight:700}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(8px) rotate(18deg)}}
 @keyframes up{to{opacity:1;transform:none}}
 
 /* ===== MARQUEE ===== */
@@ -165,7 +168,7 @@ footer .logo{margin-bottom:12px}
 @media (max-width:768px){
   nav .links{display:none}
   section{padding:64px 5vw}
-  .ring-1{right:-30px}.ring-2{display:none}
+  .flake-deco{right:-20px}.flake-deco.f2{left:-20px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -188,13 +191,32 @@ footer .logo{margin-bottom:12px}
 <header class="hero" id="snowField">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
-  <div class="ring ring-1"></div>
-  <div class="ring ring-2"></div>
+  <div class="flake-deco" aria-hidden="true">
+    <svg viewBox="0 0 100 100">
+      <g transform="translate(50 50)">
+        <path d="M0 -42 L0 42 M-36.4 -21 L36.4 21 M-36.4 21 L36.4 -21"/>
+        <path d="M0 -42 l-8 8 M0 -42 l8 8 M0 42 l-8 -8 M0 42 l8 -8"/>
+        <path d="M-36.4 -21 l-2 11.4 M-36.4 -21 l11 -2.4 M36.4 21 l-2 -11.4 M36.4 21 l11 -2.4"/>
+        <path d="M-36.4 21 l2 -11.4 M-36.4 21 l11 2.4 M36.4 -21 l2 11.4 M36.4 -21 l11 2.4"/>
+      </g>
+    </svg>
+  </div>
+  <div class="flake-deco f2" aria-hidden="true">
+    <svg viewBox="0 0 100 100">
+      <g transform="translate(50 50)">
+        <path d="M0 -42 L0 42 M-36.4 -21 L36.4 21 M-36.4 21 L36.4 -21"/>
+        <path d="M0 -42 l-8 8 M0 -42 l8 8 M0 42 l-8 -8 M0 42 l8 -8"/>
+      </g>
+    </svg>
+  </div>
   <div class="kicker">ЗИМНЯЯ КОЛЛЕКЦИЯ — ДЕТЯМ 1–10 ЛЕТ</div>
   <h1 id="heroTitle">Куртки, в которых <span class="grad">тепло даже&nbsp;в мороз</span></h1>
   <p>Зимние куртки, комбинезоны и комплекты для детей. Мембрана держит снег и ветер, внутри — мягкий утеплитель. Ребёнок бегает, а не мёрзнет.</p>
   <a href="#shop" class="btn">Выбрать куртку</a>
-  <div class="scroll-hint">СКРОЛЛ</div>
+  <div class="scroll-hint" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6L4 18"/><path d="M12 5l-2.5 2.5M12 5l2.5 2.5M12 19l-2.5-2.5M12 19l2.5-2.5"/></svg>
+    <span>ЛИСТАЙ</span>
+  </div>
 </header>
 
 <div class="marquee">
