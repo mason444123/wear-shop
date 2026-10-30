@@ -138,6 +138,7 @@ h2 small{display:block;font-size:.85rem;font-weight:700;color:var(--accent2);let
 .ph.c2{background:linear-gradient(135deg,#ffeadf,#fff8f3)}
 .ph.c3{background:linear-gradient(135deg,#e3f7e8,#f4fdf6)}
 .ph.c4{background:linear-gradient(135deg,#f3e8ff,#faf5ff)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
 .ph .big{font-size:3.8rem;font-weight:900;letter-spacing:-.04em;color:rgba(28,35,51,.22);transition:transform .45s,color .45s}
 .ph .tag{margin-top:6px;font-size:.65rem;letter-spacing:.35em;color:var(--dim);font-weight:700}
 .ph:after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(244,139,176,.1),transparent 60%);opacity:0;transition:opacity .45s}
@@ -261,21 +262,37 @@ footer .logo{margin-bottom:12px}
 <section id="shop">
   <h2><small>КАТАЛОГ</small>Зимняя коллекция</h2>
   <div class="grid">
-    <div class="card reveal">
+    <div class="card reveal" data-id="jk">
       <div class="ph c1"><span class="badge">ХИТ</span><div class="big">JK</div><div class="tag">КУРТКА</div></div>
       <div class="card-body"><h3>Пуховик «Снежинка»</h3><div class="price">3 990 ₽</div><div class="cat">Утеплитель 300 г, до −25°</div><button class="add">В корзину</button></div>
     </div>
-    <div class="card reveal d1">
+    <div class="card reveal d1" data-id="cm">
       <div class="ph c2"><span class="badge b2">SALE</span><div class="big">CM</div><div class="tag">КОМБИНЕЗОН</div></div>
       <div class="card-body"><h3>Комбинезон «Полярка»</h3><div class="price">4 290 ₽ <s>5 400 ₽</s></div><div class="cat">Мембрана 5000, снегозащита</div><button class="add">В корзину</button></div>
     </div>
-    <div class="card reveal d2">
+    <div class="card reveal d2" data-id="st">
       <div class="ph c3"><div class="big">ST</div><div class="tag">КОМПЛЕКТ</div></div>
       <div class="card-body"><h3>Комплект «Зимний день»</h3><div class="price">2 790 ₽</div><div class="cat">Куртка + штаны, 1–4 года</div><button class="add">В корзину</button></div>
     </div>
-    <div class="card reveal d3">
-      <div class="ph c4"><span class="badge">NEW</span><div class="big">TR</div><div class="tag">ТРАНСФОРМЕР</div></div>
+    <div class="card reveal d3" data-id="tr">
+      <div class="ph c4"><div class="big">TR</div><div class="tag">ТРАНСФОРМЕР</div></div>
       <div class="card-body"><h3>Куртка-трансформер «Рост»</h3><div class="price">4 990 ₽</div><div class="cat">Удлиняется на 2 размера</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal" data-id="dk">
+      <div class="ph c1"><span class="badge">NEW</span><img src="assets/jacket-kid.jpg?v=10" alt="Детская куртка" loading="lazy"></div>
+      <div class="card-body"><h3>Детская куртка</h3><div class="price">3 300 ₽</div><div class="cat">Кремовый флис-шерпа, с капюшоном</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal d1" data-id="hd">
+      <div class="ph c2"><span class="badge">NEW</span><img src="assets/hoodie-red.jpg?v=10" alt="Худи красное" loading="lazy"></div>
+      <div class="card-body"><h3>Худи красное</h3><div class="price">1 990 ₽</div><div class="cat">Бордовый флис, карман-кенгуру</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal d2" data-id="an">
+      <div class="ph c3"><span class="badge">NEW</span><img src="assets/anorak-fleece.jpg?v=10" alt="Флисовый анорак" loading="lazy"></div>
+      <div class="card-body"><h3>Флисовый анорак</h3><div class="price">2 400 ₽</div><div class="cat">Чёрный флис, высокий ворот</div><button class="add">В корзину</button></div>
+    </div>
+    <div class="card reveal d3" data-id="ls">
+      <div class="ph c4"><span class="badge">NEW</span><img src="assets/longsleeve-set.jpg?v=10" alt="Женский лонгслив с шортиками" loading="lazy"></div>
+      <div class="card-body"><h3>Женский лонгслив с шортиками</h3><div class="price">1 990 ₽</div><div class="cat">Сердечки, рюши на манжетах</div><button class="add">В корзину</button></div>
     </div>
   </div>
 </section>
@@ -399,6 +416,10 @@ const PRODUCTS = [
   { id:'cm',  name:'Комбинезон «Полярка»',      price:4290, tag:'CM', bg:'#ffeadf' },
   { id:'st',  name:'Комплект «Зимний день»',    price:2790, tag:'ST', bg:'#e3f7e8' },
   { id:'tr',  name:'Куртка-трансформер «Рост»', price:4990, tag:'TR', bg:'#f3e8ff' },
+  { id:'dk',  name:'Детская куртка',            price:3300, tag:'DK', bg:'#f4f0e6' },
+  { id:'hd',  name:'Худи красное',              price:1990, tag:'HD', bg:'#f7e6e6' },
+  { id:'an',  name:'Флисовый анорак',           price:2400, tag:'AN', bg:'#e6e8ec' },
+  { id:'ls',  name:'Женский лонгслив с шортиками', price:1990, tag:'LS', bg:'#f6e8ec' },
 ];
 const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
 let cart = {}; // id -> qty
@@ -510,9 +531,7 @@ function flyToCart(fromEl){
 }
 
 document.querySelectorAll('.add').forEach(b => {
-  b.dataset.id = b.closest('.card').querySelector('.ph').classList.contains('c1') ? 'jk'
-               : b.closest('.card').querySelector('.ph').classList.contains('c2') ? 'cm'
-               : b.closest('.card').querySelector('.ph').classList.contains('c3') ? 'st' : 'tr';
+  b.dataset.id = b.closest('.card').dataset.id;
   b.onclick = () => {
     const id = b.dataset.id;
     cart[id] = (cart[id] || 0) + 1;
