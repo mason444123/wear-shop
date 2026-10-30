@@ -64,6 +64,30 @@ nav a:hover:after{width:100%}
 .overlay{position:fixed;inset:0;background:rgba(28,35,51,.4);backdrop-filter:blur(3px);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
 .overlay.open{opacity:1;pointer-events:auto}
 .cart{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:#fff;z-index:100;box-shadow:-18px 0 50px rgba(28,35,51,.18);transform:translateX(105%);transition:transform .38s cubic-bezier(.3,.9,.3,1);display:flex;flex-direction:column}
+/* ===== product modal ===== */
+.pm-overlay{position:fixed;inset:0;background:rgba(28,35,51,.45);z-index:110;display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .3s}
+.pm-overlay.open{display:flex;opacity:1}
+.pm{position:relative;background:#fff;width:min(480px,100vw);max-height:92vh;border-radius:22px 22px 0 0;overflow-y:auto;animation:pmUp .35s cubic-bezier(.3,.9,.3,1)}
+@keyframes pmUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.pm-close{position:absolute;top:12px;right:12px;z-index:2;width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:1rem;cursor:pointer;box-shadow:0 2px 8px rgba(28,35,51,.12)}
+.pm-img{background:var(--soft)}
+.pm-img img{width:100%;max-height:52vh;object-fit:contain;display:block}
+.pm-body{padding:20px 22px 26px}
+.pm-body h3{font-size:1.35rem}
+.pm-price{color:var(--accent);font-weight:900;font-size:1.2rem;margin-top:4px}
+.pm-sizes-label{font-size:.72rem;letter-spacing:.18em;font-weight:800;color:var(--dim);margin:16px 0 8px}
+.pm-sizes{display:flex;flex-wrap:wrap;gap:8px}
+.pm-sizes.shake{animation:pmShake .5s}
+@keyframes pmShake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.size-chip{min-width:52px;padding:10px 14px;border:1.5px solid var(--line);background:#fff;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.size-chip:hover{border-color:var(--accent)}
+.size-chip.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+.pm-desc{color:var(--dim);font-size:.92rem;line-height:1.55;margin:14px 0 18px}
+.pm-add{width:100%;padding:14px;background:var(--accent);color:#fff;border:0;border-radius:14px;font-size:1rem;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.pm-add:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(232,90,121,.35)}
+.ci-sub{color:var(--dim);font-size:.8rem;margin-top:2px}
+.ci .thumb{overflow:hidden}
+.ci .thumb img{width:100%;height:100%;object-fit:cover;border-radius:10px}
 .cart.open{transform:none}
 .cart-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
 .cart-head h3{font-size:1.15rem}
@@ -134,6 +158,8 @@ h2 small{display:block;font-size:.85rem;font-weight:700;color:var(--accent2);let
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 4px 18px rgba(28,35,51,.05);transition:transform .35s,box-shadow .35s,border-color .35s}
 .card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(28,35,51,.12);border-color:var(--accent)}
 .ph{height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.ph.nofit{height:auto;padding:0;display:block}
+.ph.nofit img{width:100%;height:100%;max-height:420px;object-fit:contain;display:block}
 .ph.c1{background:linear-gradient(135deg,#dff0ff,#f6fbff)}
 .ph.c2{background:linear-gradient(135deg,#ffeadf,#fff8f3)}
 .ph.c3{background:linear-gradient(135deg,#e3f7e8,#f4fdf6)}
@@ -262,36 +288,20 @@ footer .logo{margin-bottom:12px}
 <section id="shop">
   <h2><small>КАТАЛОГ</small>Зимняя коллекция</h2>
   <div class="grid">
-    <div class="card reveal" data-id="jk">
-      <div class="ph c1"><span class="badge">ХИТ</span><div class="big">JK</div><div class="tag">КУРТКА</div></div>
-      <div class="card-body"><h3>Пуховик «Снежинка»</h3><div class="price">3 990 ₽</div><div class="cat">Утеплитель 300 г, до −25°</div><button class="add">В корзину</button></div>
-    </div>
-    <div class="card reveal d1" data-id="cm">
-      <div class="ph c2"><span class="badge b2">SALE</span><div class="big">CM</div><div class="tag">КОМБИНЕЗОН</div></div>
-      <div class="card-body"><h3>Комбинезон «Полярка»</h3><div class="price">4 290 ₽ <s>5 400 ₽</s></div><div class="cat">Мембрана 5000, снегозащита</div><button class="add">В корзину</button></div>
-    </div>
-    <div class="card reveal d2" data-id="st">
-      <div class="ph c3"><div class="big">ST</div><div class="tag">КОМПЛЕКТ</div></div>
-      <div class="card-body"><h3>Комплект «Зимний день»</h3><div class="price">2 790 ₽</div><div class="cat">Куртка + штаны, 1–4 года</div><button class="add">В корзину</button></div>
-    </div>
-    <div class="card reveal d3" data-id="tr">
-      <div class="ph c4"><div class="big">TR</div><div class="tag">ТРАНСФОРМЕР</div></div>
-      <div class="card-body"><h3>Куртка-трансформер «Рост»</h3><div class="price">4 990 ₽</div><div class="cat">Удлиняется на 2 размера</div><button class="add">В корзину</button></div>
-    </div>
     <div class="card reveal" data-id="dk">
-      <div class="ph c1"><span class="badge">NEW</span><img src="assets/jacket-kid.jpg?v=10" alt="Детская куртка" loading="lazy"></div>
+      <div class="ph c1 nofit"><span class="badge">NEW</span><img src="assets/jacket-kid.jpg?v=11" alt="Детская куртка" loading="lazy"></div>
       <div class="card-body"><h3>Детская куртка</h3><div class="price">3 300 ₽</div><div class="cat">Кремовый флис-шерпа, с капюшоном</div><button class="add">В корзину</button></div>
     </div>
     <div class="card reveal d1" data-id="hd">
-      <div class="ph c2"><span class="badge">NEW</span><img src="assets/hoodie-red.jpg?v=10" alt="Худи красное" loading="lazy"></div>
+      <div class="ph c2 nofit"><span class="badge">NEW</span><img src="assets/hoodie-red.jpg?v=11" alt="Худи красное" loading="lazy"></div>
       <div class="card-body"><h3>Худи красное</h3><div class="price">1 990 ₽</div><div class="cat">Бордовый флис, карман-кенгуру</div><button class="add">В корзину</button></div>
     </div>
     <div class="card reveal d2" data-id="an">
-      <div class="ph c3"><span class="badge">NEW</span><img src="assets/anorak-fleece.jpg?v=10" alt="Флисовый анорак" loading="lazy"></div>
+      <div class="ph c3 nofit"><span class="badge">NEW</span><img src="assets/anorak-fleece.jpg?v=11" alt="Флисовый анорак" loading="lazy"></div>
       <div class="card-body"><h3>Флисовый анорак</h3><div class="price">2 400 ₽</div><div class="cat">Чёрный флис, высокий ворот</div><button class="add">В корзину</button></div>
     </div>
     <div class="card reveal d3" data-id="ls">
-      <div class="ph c4"><span class="badge">NEW</span><img src="assets/longsleeve-set.jpg?v=10" alt="Женский лонгслив с шортиками" loading="lazy"></div>
+      <div class="ph c4 nofit"><span class="badge">NEW</span><img src="assets/longsleeve-set.jpg?v=11" alt="Женский лонгслив с шортиками" loading="lazy"></div>
       <div class="card-body"><h3>Женский лонгслив с шортиками</h3><div class="price">1 990 ₽</div><div class="cat">Сердечки, рюши на манжетах</div><button class="add">В корзину</button></div>
     </div>
   </div>
@@ -354,6 +364,21 @@ footer .logo{margin-bottom:12px}
   <span class="mc-total" id="mcTotal">0 ₽</span>
 </button>
 
+<div class="pm-overlay" id="productOverlay">
+  <div class="pm">
+    <button class="pm-close" id="productClose" aria-label="Закрыть">✕</button>
+    <div class="pm-img"><img id="pmImg" src="" alt=""></div>
+    <div class="pm-body">
+      <h3 id="pmName"></h3>
+      <div class="pm-price" id="pmPrice"></div>
+      <div class="pm-sizes-label">Размер</div>
+      <div class="pm-sizes" id="pmSizes"></div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <button class="pm-add" id="pmAdd">В корзину</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // hero: split text into animated letters
 (function(){
@@ -412,17 +437,14 @@ addEventListener('scroll', () => {
 // ===== CART =====
 // product data + state
 const PRODUCTS = [
-  { id:'jk',  name:'Пуховик «Снежинка»',        price:3990, tag:'JK', bg:'#dff0ff' },
-  { id:'cm',  name:'Комбинезон «Полярка»',      price:4290, tag:'CM', bg:'#ffeadf' },
-  { id:'st',  name:'Комплект «Зимний день»',    price:2790, tag:'ST', bg:'#e3f7e8' },
-  { id:'tr',  name:'Куртка-трансформер «Рост»', price:4990, tag:'TR', bg:'#f3e8ff' },
-  { id:'dk',  name:'Детская куртка',            price:3300, tag:'DK', bg:'#f4f0e6' },
-  { id:'hd',  name:'Худи красное',              price:1990, tag:'HD', bg:'#f7e6e6' },
-  { id:'an',  name:'Флисовый анорак',           price:2400, tag:'AN', bg:'#e6e8ec' },
-  { id:'ls',  name:'Женский лонгслив с шортиками', price:1990, tag:'LS', bg:'#f6e8ec' },
+  { id:'dk',  name:'Детская куртка',               price:3300, tag:'DK', bg:'#f4f0e6', img:'assets/jacket-kid.jpg?v=10', sizes:[86,92,98,104,110], desc:'Кремовая куртка на мягком флисе-шерпe. Капюшон, тёплые карманы, кнопки по всей длине — надевается за 5 секунд даже на капризного ребёнка. Промежуточный вариант на осень и тёплую зиму.' },
+  { id:'hd',  name:'Худи красное',                 price:1990, tag:'HD', bg:'#f7e6e6', img:'assets/hoodie-red.jpg?v=10', sizes:['XS','S','M','L','XL'], desc:'Насыщенное бордовое худи с капюшоном. Плотный флис внутри, большой карман-кенгуру, свободный силуэт — садится и на подростка, и на взрослого.' },
+  { id:'an',  name:'Флисовый анорак',              price:2400, tag:'AN', bg:'#e6e8ec', img:'assets/anorak-fleece.jpg?v=10', sizes:['S','M','L','XL'], desc:'Чёрный флисовый анорак с высоким воротом. Тёплый и лёгкий, не продувается на ветру, не сковывает движения. Ворот держит шею, манжеты утеплены. Универсальная вещь на каждый день.' },
+  { id:'ls',  name:'Женский лонгслив с шортиками', price:1990, tag:'LS', bg:'#f6e8ec', img:'assets/longsleeve-set.jpg?v=10', sizes:['XS','S','M','L'], desc:'Комплект из лонгслива и шортиков в горошек с сердечками. Рюши на манжетах, мягкая тянущаяся ткань. Домашний, уютный, не мнётся и не теряет форму после стирки.' },
 ];
 const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
 let cart = {}; // id -> qty
+// cart keys now include size: 'dk|104' means product dk, size 104
 try { cart = JSON.parse(localStorage.getItem('pp_cart') || '{}'); } catch(e) {}
 
 const drawer = document.getElementById('cartDrawer');
@@ -446,39 +468,41 @@ overlay.onclick = closeCart;
 addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
 
 function renderCart(){
-  const ids = Object.keys(cart);
-  const qty = ids.reduce((s,id) => s + cart[id], 0);
+  const keys = Object.keys(cart);
+  const qty = keys.reduce((s,k) => s + cart[k], 0);
   countEl.textContent = qty;
-  countEl.classList.toggle('show', ids.length > 0);
+  countEl.classList.toggle('show', keys.length > 0);
   mcCount.textContent = qty;
-  buyBtn.disabled = ids.length === 0;
+  buyBtn.disabled = keys.length === 0;
   itemsEl.innerHTML = '';
-  if (!ids.length) {
+  if (!keys.length) {
     mini.classList.remove('show');
-    itemsEl.innerHTML = '<div class="cart-empty">Пока пусто.<br>Добавьте куртку из каталога.</div>';
+    itemsEl.innerHTML = '<div class="cart-empty">Пока пусто.<br>Добавьте вещь из каталога.</div>';
     totalEl.textContent = '0 ₽';
     mcTotal.textContent = '0 ₽';
     return;
   }
   mini.classList.add('show');
   let total = 0;
-  ids.forEach(id => {
+  keys.forEach(k => {
+    const id = k.split('|')[0], size = k.split('|')[1] || '—';
     const p = PRODUCTS.find(x => x.id === id); if (!p) return;
-    total += p.price * cart[id];
+    total += p.price * cart[k];
     const row = document.createElement('div');
     row.className = 'ci';
     row.innerHTML = `
-      <div class="thumb" style="background:${p.bg}">${p.tag}</div>
+      <div class="thumb" style="background:${p.bg}"><img src="${p.img}" alt=""></div>
       <div class="ci-body">
         <h4>${p.name}</h4>
+        <div class="ci-sub">Размер: ${size}</div>
         <div class="ci-price">${fmt(p.price)}</div>
         <div class="ci-row">
           <div class="qty">
-            <button data-act="minus" data-id="${id}" aria-label="Меньше">−</button>
-            <span>${cart[id]}</span>
-            <button data-act="plus" data-id="${id}" aria-label="Больше">+</button>
+            <button data-act="minus" data-key="${k}" aria-label="Меньше">−</button>
+            <span>${cart[k]}</span>
+            <button data-act="plus" data-key="${k}" aria-label="Больше">+</button>
           </div>
-          <button class="ci-del" data-act="del" data-id="${id}">удалить</button>
+          <button class="ci-del" data-act="del" data-key="${k}">удалить</button>
         </div>
       </div>`;
     itemsEl.appendChild(row);
@@ -489,21 +513,22 @@ function renderCart(){
 
 itemsEl.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !b.dataset.act) return;
-  const id = b.dataset.id;
-  if (b.dataset.act === 'plus') cart[id] = Math.min(cart[id] + 1, 99);
-  if (b.dataset.act === 'minus') { cart[id]--; if (cart[id] <= 0) delete cart[id]; }
-  if (b.dataset.act === 'del') delete cart[id];
+  const k = b.dataset.key;
+  if (b.dataset.act === 'plus') cart[k] = Math.min(cart[k] + 1, 99);
+  if (b.dataset.act === 'minus') { cart[k]--; if (cart[k] <= 0) delete cart[k]; }
+  if (b.dataset.act === 'del') delete cart[k];
   saveCart(); renderCart();
 });
 
 buyBtn.onclick = () => {
-  const ids = Object.keys(cart);
-  if (!ids.length) return;
-  const lines = ids.map(id => {
+  const keys = Object.keys(cart);
+  if (!keys.length) return;
+  const lines = keys.map(k => {
+    const [id, size] = k.split('|');
     const p = PRODUCTS.find(x => x.id === id);
-    return `${p.name} × ${cart[id]} — ${fmt(p.price * cart[id])}`;
+    return `${p.name} (размер ${size || '—'}) × ${cart[k]} — ${fmt(p.price * cart[k])}`;
   });
-  const total = ids.reduce((s,id) => s + PRODUCTS.find(x=>x.id===id).price * cart[id], 0);
+  const total = keys.reduce((s,k) => s + PRODUCTS.find(x=>x.id===k.split('|')[0]).price * cart[k], 0);
   const text = encodeURIComponent(
     'Здравствуйте! Хочу заказать:\n' + lines.join('\n') + `\nИтого: ${fmt(total)}`
   );
@@ -532,13 +557,68 @@ function flyToCart(fromEl){
 
 document.querySelectorAll('.add').forEach(b => {
   b.dataset.id = b.closest('.card').dataset.id;
-  b.onclick = () => {
+  b.onclick = (e) => {
+    e.stopPropagation();
     const id = b.dataset.id;
-    cart[id] = (cart[id] || 0) + 1;
-    saveCart(); renderCart();
-    flyToCart(b.closest('.card').querySelector('.ph'));
-    b.textContent = 'Добавлено'; setTimeout(() => b.textContent = 'В корзину', 1200);
+    openProduct(id, true); // открываем карточку товара с выбором размера
   };
+});
+
+// ===== PRODUCT MODAL =====
+const pmOverlay = document.getElementById('productOverlay');
+const pmClose = document.getElementById('productClose');
+let pmSize = null, pmCurrent = null;
+
+function openProduct(id, addMode){
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  pmCurrent = p;
+  pmSize = null;
+  document.getElementById('pmImg').src = p.img;
+  document.getElementById('pmImg').alt = p.name;
+  document.getElementById('pmName').textContent = p.name;
+  document.getElementById('pmPrice').textContent = fmt(p.price);
+  document.getElementById('pmDesc').textContent = p.desc;
+  const chips = document.getElementById('pmSizes');
+  chips.innerHTML = '';
+  p.sizes.forEach(s => {
+    const c = document.createElement('button');
+    c.className = 'size-chip';
+    c.textContent = s;
+    c.onclick = () => {
+      chips.querySelectorAll('button').forEach(x => x.classList.remove('sel'));
+      c.classList.add('sel');
+      pmSize = s;
+    };
+    chips.appendChild(c);
+  });
+  document.getElementById('pmAdd').textContent = addMode ? 'Выбрать размер' : 'В корзину';
+  pmOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProduct(){
+  pmOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+pmClose.onclick = closeProduct;
+pmOverlay.addEventListener('click', e => { if (e.target === pmOverlay) closeProduct(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeProduct(); });
+
+document.getElementById('pmAdd').onclick = () => {
+  if (!pmSize) {
+    document.getElementById('pmSizes').classList.add('shake');
+    setTimeout(() => document.getElementById('pmSizes').classList.remove('shake'), 500);
+    return;
+  }
+  const k = pmCurrent.id + '|' + pmSize;
+  cart[k] = (cart[k] || 0) + 1;
+  saveCart(); renderCart(); closeProduct();
+};
+
+// клик по карточке → модалка товара
+document.querySelectorAll('.card').forEach(c => {
+  c.addEventListener('click', () => openProduct(c.dataset.id));
 });
 
 renderCart();
