@@ -523,16 +523,10 @@ itemsEl.addEventListener('click', e => {
 buyBtn.onclick = () => {
   const keys = Object.keys(cart);
   if (!keys.length) return;
-  const lines = keys.map(k => {
-    const [id, size] = k.split('|');
-    const p = PRODUCTS.find(x => x.id === id);
-    return `${p.name} (размер ${size || '—'}) × ${cart[k]} — ${fmt(p.price * cart[k])}`;
-  });
-  const total = keys.reduce((s,k) => s + PRODUCTS.find(x=>x.id===k.split('|')[0]).price * cart[k], 0);
-  const text = encodeURIComponent(
-    'Здравствуйте! Хочу заказать:\n' + lines.join('\n') + `\nИтого: ${fmt(total)}`
-  );
-  window.open('https://t.me/custom_843?text=' + text, '_blank');
+  const note = document.querySelector('.cart-note');
+  note.textContent = 'Оформление заказа пока в разработке — корзина сохранена';
+  note.style.color = 'var(--accent)';
+  setTimeout(() => { note.textContent = 'Доставка 2–5 дней · обмен 30 дней'; note.style.color = ''; }, 4000);
 };
 
 // add-to-cart: snowflake flies from the clicked card to the mini-cart
